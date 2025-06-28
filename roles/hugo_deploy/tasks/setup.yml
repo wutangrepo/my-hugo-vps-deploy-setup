@@ -1,0 +1,22 @@
+---
+- name: "Ensure deployment user exists"
+  ansible.builtin.user:
+    name: "{{ deploy_user }}"
+    state: present
+    shell: /bin/bash
+
+- name: "Create web root directory"
+  ansible.builtin.file:
+    path: "{{ web_root }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: 'www-data' # Nginx access web root as www-data user on Ubuntu/Debian
+    mode: '0775'
+
+- name: "Create Hugo source directory"
+  ansible.builtin.file:
+    path: "{{ work_tree }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: '0755'

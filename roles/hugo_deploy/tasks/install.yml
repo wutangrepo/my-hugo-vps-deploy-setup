@@ -1,0 +1,25 @@
+---
+- name: "Update apt cache and install required system packages"
+  ansible.builtin.apt:
+    name:
+      - nginx
+      - git
+      - snapd # for certbot download
+    state: present
+    update_cache: yes
+
+- name: "Remove certbot-auto and any Certbot OS packages to avoid conflict"
+  ansible.builtin.apt:
+    name: certbot
+    state: absent
+
+- name: "Install Certbot using snap"
+  community.general.snap:
+    name: certbot
+    classic: true # specify the classic flag
+    state: present
+
+- name: "Install Hugo using snap"
+  community.general.snap:
+    name: hugo
+    state: present

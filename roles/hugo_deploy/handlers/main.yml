@@ -1,0 +1,6 @@
+---
+# handlers file for hugo_deploy
+- name: Reload Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded

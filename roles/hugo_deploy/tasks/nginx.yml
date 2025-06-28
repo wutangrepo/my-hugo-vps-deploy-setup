@@ -1,0 +1,24 @@
+---
+- name: "Remove the default Nginx site configuration for a clean setup"
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload Nginx
+
+- name: "Deploy Nginx config from template"
+  ansible.builtin.template:
+    src: my_blog_nginx.conf.j2
+    dest: "/etc/nginx/sites-available/{{ domain_name }}"
+  notify: Reload Nginx
+
+- name: "Enable new Nginx site by creating a symbolic link"
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ domain_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ domain_name }}"
+    state: link
+  notify: Reload Nginx
+
+- name: "Obtain Let's Encrypt SSL certificate through Certbot"
+  ansible.builtin.command:
+    cmd: "certbot --nginx -d {{ domain_name }} --non-interactive --agree-tos -m {{ certbot_email }}"
+    creates: "/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem" # pick up a proof of live

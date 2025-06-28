@@ -1,0 +1,18 @@
+---
+# tasks file for hugo_deploy
+
+- name: "Section 1: OS Preparation & Software Installation"
+  ansible.builtin.include_tasks: install.yml
+  tags: install
+
+- name: "Section 2: Create Users, Directories, and Permissions"
+  ansible.builtin.include_tasks: setup.yml
+  tags: setup
+
+- name: "Section 3: Configure Git deployment hook"
+  ansible.builtin.include_tasks: git.yml
+  tags: git
+
+- name: "Section 4: Configure Nginx and HTTPS"
+  ansible.builtin.include_tasks: nginx.yml
+  tags: nginx

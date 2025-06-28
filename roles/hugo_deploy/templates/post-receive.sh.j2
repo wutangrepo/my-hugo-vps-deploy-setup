@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# This hook script is triggered on the server after a push.
+# This file is managed by Ansible.
+#
+# --- Configuration (Values are injected by Ansible) ---
+GIT_REPO_PATH="{{ git_repo_path }}"
+GIT_WORK_TREE="{{ work_tree }}"     
+PUBLIC_WWW="{{ web_root }}"
+HUGO_EXECUTABLE="/snap/bin/hugo"     
+# --- End Configuration ---
+
+# Function for logging with timestamp
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] - $1"
+}
+
+log "-----> Git post-receive hook triggered."
+
+# Read the pushed branch details (comes from stdin)
+while read oldrev newrev refname
+do
+    TARGET_BRANCH=$(cd ${GIT_REPO_PATH} && git symbolic-ref --short HEAD)
+    branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+    log "-----> Received push to ref: $refname (Branch: $branch)"
+
+    if [ "$branch" == "$TARGET_BRANCH" ]; then
+        log "-----> Push to target branch '$TARGET_BRANCH' detected. Starting deployment..."
+
+        # Force checkout of the latest code
+        log "-----> Checking out branch '$TARGET_BRANCH' to ${GIT_WORK_TREE}..."
+
+        if ! git --git-dir=${GIT_REPO_PATH} --work-tree=${GIT_WORK_TREE} checkout -f ${TARGET_BRANCH}; then
+            log "!!!!!! ERROR: Git checkout failed."
+            exit 1
+        fi
+        log "-----> Checkout successful."
+
+        # Navigate to the source directory and build with Hugo
+        log "-----> Building Hugo site from ${GIT_WORK_TREE}..."
+        cd ${GIT_WORK_TREE}
+        if ! ${HUGO_EXECUTABLE}; then
+            log "!!!!!! ERROR: Hugo build failed."
+            exit 1
+        fi
+        log "-----> Hugo build successful. Output in ${GIT_WORK_TREE}/public/"
+
+	# Deploy with rsync
+	log "-----> Deploying built site to ${PUBLIC_WWW}..."
+    
+	rsync -av --delete ${GIT_WORK_TREE}/public/ "${PUBLIC_WWW}/"
+
+    if [ $? -eq 0 ]; then
+        log "-----> Hugo site deployed successfully to ${PUBLIC_WWW}"
+    else
+        log "!!!!!! ERROR: rsync command failed."
+        exit 1
+    fi
+
+    else
+        log "-----> Push was not to target branch '$TARGET_BRANCH' (it was to '$branch'). Ignoring."
+    fi
+done
+exit 0

@@ -1,0 +1,23 @@
+---
+- name: "Initialize a bare Git directory on the server"
+  ansible.builtin.file:
+    path: "{{ git_repo_path }}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: '0755'
+
+- name: "Initialize the bare Git repository"
+  ansible.builtin.command:
+    cmd: git init --bare
+    creates: "{{ git_repo_path }}/config"
+    chdir: "{{ git_repo_path }}" # choose the file 'config' as "proof of life" for the repository.
+  become: no # prevent to escalate privileges.
+
+- name: "Deploy the post-receive hook from our local template"
+  ansible.builtin.template:
+    src: "post-receive.sh.j2"
+    dest: "{{ git_repo_path }}/hooks/post-receive"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: '0755'

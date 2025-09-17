@@ -1,4 +1,4 @@
-# Ansible Role: Hugo Site Deployment (I am fixing an issue related with hugo that overwrites web files, and replace it with GitHub actions to resolve)
+# Ansible Role: Hugo Site Deployment (I am migrating this hooks to github actions so the roles will be modified soon, it would be much clean then)
 
 This repository contains a reusable **Ansible Role** that fully automates the setup of a secure, production-ready server for deploying a [Hugo](https://gohugo.io/) static site. It implements an **Infrastructure as Code (IaC)** solution, building a complete environment with a Git-based CI/CD pipeline from scratch.
 

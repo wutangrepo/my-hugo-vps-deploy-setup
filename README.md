@@ -1,8 +1,8 @@
-# Ansible Role: Hugo Site Deployment (I am migrating this hooks to github actions so the roles will be modified soon, it would be much clean then)
+# Ansible Role: Hugo Site Deployment (I have not pushed the new modified roles as I was migrating the hooks to Github Actions. the new roles will be pushed soon after test, it would be much clean then)
 
-This repository contains a reusable **Ansible Role** that fully automates the setup of a secure, production-ready server for deploying a [Hugo](https://gohugo.io/) static site. It implements an **Infrastructure as Code (IaC)** solution, building a complete environment with a Git-based CI/CD pipeline from scratch.
+This repository contains a reusable **Ansible Role** that fully automates the setup of a secure, production-ready server for deploying a [Hugo](https://gohugo.io/) static site. It implements an **I[...]**
 
-This setup powers my personal blog, which can be viewed live at [https://wuweb.westeurope.cloudapp.azure.com/](https://wuweb.westeurope.cloudapp.azure.com/). The source code for the Hugo site itself is located at [My-Blog](https://github.com/wusshit/My-Blog.git).
+This setup powers my personal blog, which can be viewed live at [https://wuweb.westeurope.cloudapp.azure.com/](https://wuweb.westeurope.cloudapp.azure.com/). The source code for the Hugo site itself is here: [wutangrepo/My-Web](https://github.com/wutangrepo/My-Web).
 
 ## Features
 
@@ -37,7 +37,7 @@ There are two distinct workflows: the one-time server setup (using Ansible) and 
 
 1.  **Clone this repository** to your local machine:
     ```bash
-    git clone https://github.com/wusshit/my-hugo-vps-deploy-setup.git
+    git clone https://github.com/wutangrepo/my-hugo-vps-deploy-setup.git
     cd my-hugo-vps-deploy-setup
     ```
 
@@ -73,3 +73,7 @@ The core logic is contained within the `hugo_deploy` role:
 *   `templates/`: Contains Jinja2 templates for configuration files (`my_blog_nginx.conf.j2`, `post-receive.sh.j2`).
 
 This structure makes the automation modular, reusable, and easy to maintain.
+
+## Related repositories
+
+- Hugo site content: [wutangrepo/My-Web](https://github.com/wutangrepo/My-Web)

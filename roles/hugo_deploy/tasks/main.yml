@@ -1,5 +1,4 @@
----
-# tasks file for hugo_deploy
+---:
 
 - name: "Section 1: OS Preparation & Software Installation"
   ansible.builtin.include_tasks: install.yml

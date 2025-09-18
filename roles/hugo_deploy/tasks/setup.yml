@@ -12,11 +12,3 @@
     owner: "{{ deploy_user }}"
     group: 'www-data' # Nginx access web root as www-data user on Ubuntu/Debian
     mode: '0775'
-
-- name: "Create Hugo source directory"
-  ansible.builtin.file:
-    path: "{{ work_tree }}"
-    state: directory
-    owner: "{{ deploy_user }}"
-    group: "{{ deploy_user }}"
-    mode: '0755'

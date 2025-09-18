@@ -2,13 +2,8 @@
 # defaults file for hugo_deploy
 # domain and user settings
 
-domain_name: my-blog.example.com # we overrite outsite anyway
-certbot_email: admin@example.com # the same as above
-deploy_user: youruser # the same
+domain_name: wuweb.westeurope.cloudapp.azure.com
+certbot_email: democritushygge@gmail.com 
+deploy_user: azureuser
+web_root: /var/www/html/my-blog
 
-# path and Git settings
-
-web_root: /var/www/html/my-blog # where Nginx serves files from 
-work_tree: /var/www/my-hugo-source # where Hugo souce code is checked out to
-git_repo_name: my-website.git
-git_repo_path: "/home/{{ deploy_user }}/{{ git_repo_name }}"

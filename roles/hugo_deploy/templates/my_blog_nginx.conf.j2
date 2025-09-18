@@ -14,10 +14,9 @@
 
 server {
 
-    # Replace with your server's public IP or, eventually, your custom domain name
+    # Server's public IP or custom domain name
     server_name {{ domain_name }}; 
 
-    # This root path MUST match the PUBLIC_WWW variable defined in the post-receive hook script
     root {{ web_root }};
     index index.html index.htm; # Default files to serve
 

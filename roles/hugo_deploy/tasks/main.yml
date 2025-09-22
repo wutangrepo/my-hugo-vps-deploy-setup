@@ -8,10 +8,6 @@
   ansible.builtin.include_tasks: setup.yml
   tags: setup
 
-- name: "Section 3: Configure Git deployment hook"
-  ansible.builtin.include_tasks: git.yml
-  tags: git
-
-- name: "Section 4: Configure Nginx and HTTPS"
+- name: "Section 3: Configure Nginx and HTTPS"
   ansible.builtin.include_tasks: nginx.yml
   tags: nginx
